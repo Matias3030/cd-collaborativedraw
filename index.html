@@ -109,7 +109,23 @@
 
         function setTool(selectedTool) {
             tool = selectedTool;
-            canvas.style.cursor = 'default'; // Set cursor to default
+            switch (tool) {
+                case 'pencil':
+                    canvas.style.cursor = 'url(https://twemoji.maxcdn.com/v/latest/72x72/270f.png), auto';
+                    break;
+                case 'eraser':
+                    canvas.style.cursor = 'url(https://twemoji.maxcdn.com/v/latest/72x72/1f9f9.png), auto';
+                    break;
+                case 'text':
+                    canvas.style.cursor = 'text';
+                    break;
+                case 'fill':
+                    canvas.style.cursor = 'url(https://twemoji.maxcdn.com/v/latest/72x72/1f9f9.png), auto';
+                    break;
+                case 'shape':
+                    canvas.style.cursor = 'crosshair';
+                    break;
+            }
         }
 
         function startDrawing(e) {
@@ -223,27 +239,4 @@
                 const height = prompt('Enter height:');
                 ctx.fillRect(x, y, width, height);
             } else if (shape === 'circle') {
-                const radius = prompt('Enter radius:');
-                ctx.beginPath();
-                ctx.arc(x, y, radius, 0, Math.PI * 2);
-                ctx.fill();
-            }
-        }
-
-        function addImage() {
-            const imageUrl = prompt('Enter image URL:');
-            if (imageUrl) {
-                const img = new Image();
-                img.src = imageUrl;
-                img.onload = () => {
-                    const x = prompt('Enter x position:');
-                    const y = prompt('Enter y position:');
-                    ctx.drawImage(img, x, y);
-                };
-            }
-        }
-
-        window.onload = loadDrawings;
-    </script>
-</body>
-</html>
+                const radius =[_{{{CITATION{{{_1{](https://github.com/la9una/web/tree/ba1073ae044ebb7b538a3b13f0f9598f7c410bb6/docs%2Fbootstrap%2Falignci.md)[_{{{CITATION{{{_2{](https://github.com/CLONATORE/markdowns/tree/82cfb03683ceb807a7091de48045e6a7485acd72/webpack.md)
