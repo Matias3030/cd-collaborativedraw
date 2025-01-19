@@ -13,7 +13,7 @@
         }
         #canvas {
             border: 2px solid #333;
-            cursor: default; /* Change to default cursor */
+            cursor: default;
             background-color: #fff;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
@@ -60,7 +60,12 @@
 <body>
     <h1>Collaborative Drawing</h1>
     <div class="toolbar">
-        <!-- Toolbar content remains the same -->
+        <input type="color" id="colorPicker" value="#000000">
+        <input type="number" id="brushSize" value="2" min="1" max="10">
+        <button onclick="setTool('pencil')">Pencil</button>
+        <button onclick="setTool('eraser')">Eraser</button>
+        <button onclick="clearCanvas()">Clear</button>
+        <button onclick="saveDrawing()">Save</button>
     </div>
     <canvas id="canvas" width="800" height="600"></canvas>
     <div id="visitCounter">Visits: <span id="visitCount">0</span></div>
@@ -94,7 +99,7 @@
 
         function setTool(selectedTool) {
             tool = selectedTool;
-            canvas.style.cursor = 'default'; // Set cursor to default
+            canvas.style.cursor = 'default';
         }
 
         function startDrawing(e) {
