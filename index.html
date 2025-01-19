@@ -46,6 +46,15 @@
             border-radius: 5px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
+        .tooltip {
+            position: absolute;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            display: none;
+        }
         @media (max-width: 600px) {
             body {
                 font-size: 14px;
@@ -61,7 +70,11 @@
     <h1>Collaborative Drawing</h1>
     <div class="toolbar">
         <input type="color" id="colorPicker" value="#000000">
-        <input type="number" id="brushSize" value="2" min="1" max="10">
+        <select id="brushSize">
+            <option value="2">Delgado</option>
+            <option value="5">Normal</option>
+            <option value="10">Grueso</option>
+        </select>
         <button onclick="setTool('pencil')">Lápiz</button>
         <button onclick="setTool('eraser')">Borrador</button>
         <button onclick="setTool('fill')">Bote de Pintura</button>
@@ -69,9 +82,11 @@
         <input type="file" id="imageLoader" name="imageLoader"/>
         <button onclick="clearCanvas()">Limpiar</button>
         <button onclick="saveDrawing()">Guardar</button>
+        <button onclick="setTool('text')">Texto</button>
     </div>
     <canvas id="canvas" width="800" height="600"></canvas>
     <div id="visitCounter">Visitas: <span id="visitCount">0</span></div>
+    <div class="tooltip" id="tooltip"></div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.min.js"></script>
     <script>
         const canvas = document.getElementById('canvas');
@@ -151,6 +166,8 @@
                 fillCanvas(e);
             } else if (tool === 'shape') {
                 drawShape(e);
+            } else if (tool === 'text') {
+                addText(e);
             }
         }
 
@@ -169,10 +186,17 @@
 
         function saveDrawing() {
             const author = prompt('Ingresa tu nombre:');
-            if (author) {
-                const drawingData = { author: author, image: canvas.toDataURL() };
-                socket.emit('saveDrawing', drawingData);
-                alert('¡Dibujo guardado!');
+            const profileImage = document.getElementById('imageLoader').files[0];
+            if (author && profileImage) {
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    const drawingData = { author: author, image: canvas.toDataURL(), profileImage: event.target.result };
+                    socket.emit('saveDrawing', drawingData);
+                    alert('¡Dibujo guardado!');
+                }
+                reader.readAsDataURL(profileImage);
+            } else {
+                alert('Por favor, ingresa tu nombre y selecciona una imagen de perfil.');
             }
         }
 
@@ -208,17 +232,4 @@
             ctx.fillStyle = color;
             if (shape === 'rectángulo') {
                 const width = prompt('Ingresa el ancho:');
-                const height = prompt('Ingresa la altura:');
-                ctx.fillRect(x, y, width, height);
-                socket.emit('drawShape', { shape, x, y, width, height, color });
-            } else if (shape === 'círculo') {
-                const radius = prompt('Ingresa el radio:');
-                ctx.beginPath();
-                ctx.arc(x, y, radius, 0, Math.PI * 2);
-                ctx.fill();
-                socket.emit('drawShape', { shape, x, y, radius, color });
-            }
-        }
-    </script>
-</body>
-</html>
+                const height = prompt('Ingresa la altura:[_{{{CITATION{{{_1{](https://github.com/la9una/web/tree/ba1073ae044ebb7b538a3b13f0f9598f7c410bb6/docs%2Fbootstrap%2Falignci.md)[_{{{CITATION{{{_2{](https://github.com/CLONATORE/markdowns/tree/82cfb03683ceb807a7091de48045e6a7485acd72/webpack.md)
